@@ -12,7 +12,13 @@ const getState = ({ getStore, getActions, setStore }) => {
 					background: "white",
 					initial: "white"
 				}
-			]
+			],
+			contact: {
+				name: "Huttman Ochoa",
+				email: "huttma@hotmail.com.jajaj",
+				phone: "214-123-4567",
+				address: "alem st 1410"
+			}
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
@@ -37,6 +43,27 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 				//reset the global store
 				setStore({ demo: demo });
+			},
+			getAllcontacts: async () => {
+				try {
+					let response = await fetch(`https://playground.4geeks.com/contact/docs/agendas?offset=0&limit=100`)
+					let data = await response.json()
+
+					if (response.status == 404) {
+						creatAgenda()
+						updateAgenda()
+					} else {
+						getAllcontacts()
+					}
+				} catch (error) {
+					console.log(getAllcontacts)
+				}
+			},
+
+			addContact: async (newContact) => {
+				{/*const store = getStore();
+				setStore({ contacts: [...store.contacts, newContact] })*/}
+				console.log(newContact)
 			}
 		}
 	};

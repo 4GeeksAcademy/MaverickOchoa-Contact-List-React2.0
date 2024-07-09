@@ -5,39 +5,102 @@ import { Context } from "../store/appContext";
 
 import "../../styles/demo.css";
 
+const initailContact = {
+	"name": "",
+	"email": "",
+	"phone": "",
+	"address": "",
+}
+const URLBASE = 'https://playground.4geeks.com/contact/docs'
+
 export const Demo = () => {
 	const { store, actions } = useContext(Context);
+	const [contact, setContact] = useState(initailContact)
+	const [contactlist, setContactList] = useState([])
+
+
+	const handleChage = (event) => {
+		setContact({
+			...contact,
+			[event.target.name]: event.target.value
+		})
+	}
+
+	const handleSubmit = async (event) => {
+
+		if (contact.name.trim() === "") {
+
+			setError(true)
+			return
+		}
+		actions.addContact(contact);
+		setContact(initailContact);
+	}
 
 	return (
 		<div className="container">
-			<ul className="list-group">
-				{store.demo.map((item, index) => {
-					return (
-						<li
-							key={index}
-							className="list-group-item d-flex justify-content-between"
-							style={{ background: item.background }}>
-							<Link to={"/single/" + index}>
-								<span>Link to: {item.title}</span>
-							</Link>
-							{// Conditional render example
-							// Check to see if the background is orange, if so, display the message
-							item.background === "orange" ? (
-								<p style={{ color: item.initial }}>
-									Check store/flux.js scroll to the actions to see the code
-								</p>
-							) : null}
-							<button className="btn btn-success" onClick={() => actions.changeColor(index, "orange")}>
-								Change Color
-							</button>
-						</li>
-					);
-				})}
-			</ul>
-			<br />
+			<form className="mt-5 " >
+				<h1 className="text-center">Add a new contact</h1>
+				<div class="mb-3">
+					<label for="name" className="form-label">Full Name</label>
+					<input
+						type="text"
+						className="form-control"
+						id="name"
+						name="name"
+						value={contact.name}
+						placeholder="Full Name"
+						onChange={handleChage}
+
+					/>
+
+				</div>
+				<div class="mb-3">
+					<label for="email" className="form-label">Email</label>
+					<input
+						type="email"
+						className="form-control"
+						id="email"
+						name="email"
+						value={contact.email}
+						placeholder="Enrer email"
+						onChange={handleChage}
+					/>
+				</div>
+				<div class="mb-3">
+					<label for="phone" className="form-label">Phone</label>
+					<input
+						type="number"
+						className="form-control"
+						id="phone"
+						name="phone"
+						value={contact.phone}
+						placeholder="Enter phone"
+						onChange={handleChage}
+					/>
+				</div>
+				<div class="mb-3">
+					<label for="address" className="form-label">Address</label>
+					<input
+						type="text"
+						className="form-control"
+						id="address"
+						name="address"
+						value={contact.address}
+						placeholder="Enter address"
+						onChange={handleChage}
+					/>
+				</div>
+				<button type="button" onClick={() => handleSubmit()} className="col-12 btn btn-primary" >Submit</button>
+			</form>
+			<div>
+
+
+			</div>
 			<Link to="/">
-				<button className="btn btn-primary">Back home</button>
+				<span className="">or get back to contact</span>
 			</Link>
+
 		</div>
 	);
 };
