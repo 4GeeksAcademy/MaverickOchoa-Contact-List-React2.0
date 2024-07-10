@@ -1,13 +1,19 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Context } from "../store/appContext";
-import { Link } from "react-router-dom";
+import { Link, useActionData } from "react-router-dom";
+
 
 import "../../styles/home.css";
 
 export const Home = () => {
-	const { store } = useContext(Context)
+	const { store, actions } = useContext(Context)
 	const { contact } = store
-	console.log(contact.name)
+
+
+	useEffect(() => {
+		actions.getAllcontacts()
+
+	}, [])
 
 	return (
 		<div className="text-center m-5">
@@ -16,28 +22,31 @@ export const Home = () => {
 					<button className="btn btn-success">Add new contact</button>
 				</Link>
 			</div>
-			<div className="cards mt-3">
-				<div className="col-3">
-					<img src="https://pics.craiyon.com/2023-07-31/bb9ac57c48ed4535ba0855f9dcc5097f.webp" class="card-img-top" alt="..." />
-				</div>
-
-				<div className=" info col-7 mt-3 ">
-					<h5 className="">{contact.name}</h5>
-					<p className=""><i class="fa-solid fa-phone">	{contact.address}</i></p>
-					<p className=""><i class="fa-solid fa-phone">	{contact.phone}</i></p>
-					<p className=""><i class="fa-solid fa-envelope">	{contact.email}</i></p>
-				</div>
-				<div className="col-2 d-flex justify-content-evenly mt-3">
-					<div>
-						<button><i class="fa-solid fa-trash"></i></button>
+			{store.contact.map((item, index) => (
+				<div className="cards mt-3" key={index}>
+					<div className="col-3">
+						<img src="https://pics.craiyon.com/2023-07-31/bb9ac57c48ed4535ba0855f9dcc5097f.webp" className="card-img-top" alt="..." />
 					</div>
-					<div>
-						<button><i class="fa-solid fa-trash"></i></button>
+
+					<div className=" info col-7 mt-3 ">
+						<h4 className="">{item.name}</h4>
+
+						<i className="fa-solid fa-location-dot">{item.address}</i>
+						<p className=""><i className="fa-solid fa-phone">	{item.phone}</i></p>
+						<p className=""><i className="fa-solid fa-envelope">	{item.email}</i></p>
 					</div>
+					<div className="col-2 d-flex justify-content-evenly mt-3">
+						<div>
+							<button><i className="fa-solid fa-trash"></i></button>
+						</div>
+						<div>
+							<button><i className="fa-solid fa-trash"></i></button>
+						</div>
+					</div>
+
+
 				</div>
-
-
-			</div>
+			))}
 		</div>
 	)
 

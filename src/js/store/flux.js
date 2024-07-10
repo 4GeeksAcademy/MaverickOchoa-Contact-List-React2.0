@@ -13,12 +13,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					initial: "white"
 				}
 			],
-			contact: {
-				name: "Huttman Ochoa",
-				email: "huttma@hotmail.com.jajaj",
-				phone: "214-123-4567",
-				address: "alem st 1410"
-			}
+			contact: []
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
@@ -46,21 +41,24 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 			getAllcontacts: async () => {
 				try {
-					let response = await fetch(`https://playground.4geeks.com/contact/docs/agendas?offset=0&limit=100`)
+					let response = await fetch(`https://playground.4geeks.com/contact/agendas/maverick/contacts`)
 					let data = await response.json()
+					console.log(data)
+					let store = getStore()
+					setStore({ ...store, contact: data.contacts })
+					// if (response.status == 404) {
 
-					if (response.status == 404) {
-						creatAgenda()
-						updateAgenda()
-					} else {
-						getAllcontacts()
-					}
+					// } else {
+					// 	getAllcontacts()
+					// }
+
 				} catch (error) {
-					console.log(getAllcontacts)
+					console.log(error)
 				}
 			},
 
 			addContact: async (newContact) => {
+				
 				{/*const store = getStore();
 				setStore({ contacts: [...store.contacts, newContact] })*/}
 				console.log(newContact)

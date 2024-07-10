@@ -41,8 +41,8 @@ export const Demo = () => {
 		<div className="container">
 			<form className="mt-5 " >
 				<h1 className="text-center">Add a new contact</h1>
-				<div class="mb-3">
-					<label for="name" className="form-label">Full Name</label>
+				<div className="mb-3">
+					<label className="form-label">Full Name</label>
 					<input
 						type="text"
 						className="form-control"
@@ -55,8 +55,8 @@ export const Demo = () => {
 					/>
 
 				</div>
-				<div class="mb-3">
-					<label for="email" className="form-label">Email</label>
+				<div className="mb-3">
+					<label className="form-label">Email</label>
 					<input
 						type="email"
 						className="form-control"
@@ -67,8 +67,8 @@ export const Demo = () => {
 						onChange={handleChage}
 					/>
 				</div>
-				<div class="mb-3">
-					<label for="phone" className="form-label">Phone</label>
+				<div className="mb-3">
+					<label className="form-label">Phone</label>
 					<input
 						type="number"
 						className="form-control"
@@ -79,8 +79,8 @@ export const Demo = () => {
 						onChange={handleChage}
 					/>
 				</div>
-				<div class="mb-3">
-					<label for="address" className="form-label">Address</label>
+				<div className="mb-3">
+					<label className="form-label">Address</label>
 					<input
 						type="text"
 						className="form-control"
