@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 import { Context } from "../store/appContext";
 
@@ -11,36 +11,31 @@ const initailContact = {
 	"phone": "",
 	"address": "",
 }
-const URLBASE = 'https://playground.4geeks.com/contact/docs'
 
-export const Demo = () => {
+export const Single = () => {
 	const { store, actions } = useContext(Context);
 	const [contact, setContact] = useState(initailContact)
-	const [contactlist, setContactList] = useState([])
 
 
-	const handleChage = (event) => {
+
+	const handleChange = (event) => {
 		setContact({
 			...contact,
 			[event.target.name]: event.target.value
 		})
 	}
 
-	const handleSubmit = async (event) => {
 
-		if (contact.name.trim() === "") {
 
-			setError(true)
-			return
-		}
-		actions.addContact(contact);
-		setContact(initailContact);
+	const handleUpdate = async (id) => {
+		actions.upDateContact(id)
 	}
 
 	return (
 		<div className="container">
+
 			<form className="mt-5 " >
-				<h1 className="text-center">Add a new contact</h1>
+				<h1 className="text-center">Update contact</h1>
 				<div className="mb-3">
 					<label className="form-label">Full Name</label>
 					<input
@@ -50,7 +45,7 @@ export const Demo = () => {
 						name="name"
 						value={contact.name}
 						placeholder="Full Name"
-						onChange={handleChage}
+						onChange={handleChange}
 
 					/>
 
@@ -64,7 +59,7 @@ export const Demo = () => {
 						name="email"
 						value={contact.email}
 						placeholder="Enrer email"
-						onChange={handleChage}
+						onChange={handleChange}
 					/>
 				</div>
 				<div className="mb-3">
@@ -76,7 +71,7 @@ export const Demo = () => {
 						name="phone"
 						value={contact.phone}
 						placeholder="Enter phone"
-						onChange={handleChage}
+						onChange={handleChange}
 					/>
 				</div>
 				<div className="mb-3">
@@ -88,11 +83,13 @@ export const Demo = () => {
 						name="address"
 						value={contact.address}
 						placeholder="Enter address"
-						onChange={handleChage}
+						onChange={handleChange}
 					/>
 				</div>
-				<button type="button" onClick={() => handleSubmit()} className="col-12 btn btn-primary" >Submit</button>
+				<button type="button" onClick={() => handleUpdate()} className="col-12 btn btn-primary" >Submit</button>
 			</form>
+
+
 			<div>
 
 
