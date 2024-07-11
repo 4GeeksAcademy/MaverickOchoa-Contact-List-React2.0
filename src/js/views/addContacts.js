@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
+import Swal from 'sweetalert2'
 
 import { Context } from "../store/appContext";
 
@@ -24,10 +25,19 @@ export const Demo = () => {
 		})
 	}
 
-	const handleSubmit = async (event) => {
-
-		actions.addContact(contact);
+	const handleSubmit = async () => {
+		const exito = await actions.addContact(contact);
 		setContact(initailContact);
+		if (exito) {
+			Swal.fire({
+
+				icon: "success",
+				title: "Your contact has been added",
+				showConfirmButton: false,
+				timer: 1500
+			});
+		}
+
 
 	}
 

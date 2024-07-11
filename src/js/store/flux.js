@@ -24,11 +24,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 					let data = await response.json()
 					console.log(data)
 					let store = getStore()
-					setStore({ ...store, contact: data.contacts })
-					if (response.status == 404) {
 
+					if (response.status == 404) {
+						getActions().creatAgenda()
 					} else {
-						getAllcontacts()
+						setStore({ ...store, contact: data.contacts })
 					}
 
 				} catch (error) {
@@ -44,6 +44,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 						},
 						body: JSON.stringify(newContact)
 					})
+					if (response.ok) {
+						getActions().getAllcontacts()
+						return true
+					}
 				} catch (error) {
 					console.log(error)
 				}
@@ -55,14 +59,13 @@ const getState = ({ getStore, getActions, setStore }) => {
 					const response = await fetch(`https://playground.4geeks.com/contact/agendas/maverick/contacts/${id}`, {
 						method: "DELETE",
 					});
-					if (!response.ok) {
-						throw new Error('Network response was not ok');
+					if (response.ok) {
+						getActions().getAllcontacts()
+						return true
 					}
 					// Optionally, handle the response here if needed
 					console.log('Contact deleted successfully');
-					setStore({
-						contact: getStore().contact.filter(contact => contact.id !== id)
-					});
+
 					console.log(response);
 
 				} catch (error) {
@@ -76,12 +79,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 						headers: {
 							"Content-Type": "application/json"
 						},
-						body: JSON.stringify(id, updatedContact)
+						body: JSON.stringify(updatedContact)
 					});
 					if (response.ok) {
-						console.log("Successfully updated");
-					} else {
-						console.error("Failed to update contact");
+						getActions().getAllcontacts()
+						return true
 					}
 				} catch (error) {
 					console.error("Error updating contact:", error);

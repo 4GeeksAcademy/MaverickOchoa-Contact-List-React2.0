@@ -3,6 +3,7 @@ import { Context } from "../store/appContext";
 import { Link, useActionData } from "react-router-dom";
 import { Demo } from "./addContacts";
 import { Single } from "./updateContact";
+import Swal from 'sweetalert2'
 
 
 import "../../styles/home.css";
@@ -13,19 +14,22 @@ export const Home = () => {
 	console.log(contact)
 
 	const handleDelete = async (id) => {
-		actions.deleteContact(id)
+		const exito = await actions.deleteContact(id)
+		if (exito) {
+			Swal.fire({
+
+				icon: "success",
+				title: "Your contact has been deleted",
+				showConfirmButton: false,
+				timer: 1500
+			});
+		}
 	}
-
-
-	useEffect(() => {
-		actions.creatAgenda()
-		actions.getAllcontacts()
-	}, [])
 
 	return (
 		<div className="text-center m-5">
 			<div className="d-flex justify-content-end">
-				<Link to="/demo">
+				<Link to="/addcontacts">
 					<button className="btn btn-success">Add new contact</button>
 				</Link>
 			</div>
@@ -51,7 +55,7 @@ export const Home = () => {
 					<div className="col-2 d-flex justify-content-evenly mt-4">
 
 						<div>
-							<Link to="/single" className="icon2"  ><i className="fa-solid fa-pencil"></i></Link>
+							<Link to={`/updatecontact/${item.id}`} className="icon2"  ><i className="fa-solid fa-pencil"></i></Link>
 						</div>
 						<div>
 							<button className="icon2" onClick={() => handleDelete(item.id)}><i className="fa-solid fa-trash  "></i></button>

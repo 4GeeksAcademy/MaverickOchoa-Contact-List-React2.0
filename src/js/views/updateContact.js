@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Link, useParams } from "react-router-dom";
+import Swal from 'sweetalert2'
 
 import { Context } from "../store/appContext";
 
@@ -16,7 +17,7 @@ export const Single = () => {
 	const { store, actions } = useContext(Context);
 	const [contact, setContact] = useState(initailContact)
 
-
+	const { id } = useParams()
 
 	const handleChange = (event) => {
 		setContact({
@@ -25,11 +26,28 @@ export const Single = () => {
 		})
 	}
 
-
-
 	const handleUpdate = async (id) => {
-		actions.upDateContact(id)
+		const exito = await actions.upDateContact(id, contact)
+		if (exito) {
+			Swal.fire({
+
+				icon: "success",
+				title: "Your contact has been update",
+				showConfirmButton: false,
+				timer: 1500
+			});
+		}
 	}
+
+	const searchCotact = (id) => {
+		const result = store.contact.find((item) => item.id == id)
+		setContact(result)
+	}
+
+	useEffect(() => {
+		searchCotact(id)
+
+	}, [store.contact])
 
 	return (
 		<div className="container">
@@ -43,7 +61,7 @@ export const Single = () => {
 						className="form-control"
 						id="name"
 						name="name"
-						value={contact.name}
+						value={contact?.name}
 						placeholder="Full Name"
 						onChange={handleChange}
 
@@ -57,7 +75,7 @@ export const Single = () => {
 						className="form-control"
 						id="email"
 						name="email"
-						value={contact.email}
+						value={contact?.email}
 						placeholder="Enrer email"
 						onChange={handleChange}
 					/>
@@ -69,7 +87,7 @@ export const Single = () => {
 						className="form-control"
 						id="phone"
 						name="phone"
-						value={contact.phone}
+						value={contact?.phone}
 						placeholder="Enter phone"
 						onChange={handleChange}
 					/>
@@ -81,12 +99,12 @@ export const Single = () => {
 						className="form-control"
 						id="address"
 						name="address"
-						value={contact.address}
+						value={contact?.address}
 						placeholder="Enter address"
 						onChange={handleChange}
 					/>
 				</div>
-				<button type="button" onClick={() => handleUpdate()} className="col-12 btn btn-primary" >Submit</button>
+				<button type="button" onClick={() => handleUpdate(id)} className="col-12 btn btn-primary" >Submit</button>
 			</form>
 
 
